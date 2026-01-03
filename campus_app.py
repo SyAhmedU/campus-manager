@@ -1,12 +1,3 @@
-This error (`SyntaxError: unterminated triple-quoted string literal`) means **the code was incomplete**. It usually happens if you didn't copy the very last few lines of the code block. Python is looking for the closing `"""` but reached the end of the file without finding it.
-
-Here is the **complete v3.0 code** again.
-
-**⚠️ Important:** Please make sure you scroll all the way to the bottom and copy the line `components.html(react_app, height=1000, scrolling=True)`.
-
-Go to `campus_app.py`, **delete everything**, and paste this:
-
-```python
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -437,5 +428,3 @@ react_app = """
 """
 
 components.html(react_app, height=1000, scrolling=True)
-
-```
