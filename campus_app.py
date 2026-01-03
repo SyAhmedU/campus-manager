@@ -1,3 +1,12 @@
+This error (`SyntaxError: unterminated triple-quoted string literal`) means **the code was incomplete**. It usually happens if you didn't copy the very last few lines of the code block. Python is looking for the closing `"""` but reached the end of the file without finding it.
+
+Here is the **complete v3.0 code** again.
+
+**⚠️ Important:** Please make sure you scroll all the way to the bottom and copy the line `components.html(react_app, height=1000, scrolling=True)`.
+
+Go to `campus_app.py`, **delete everything**, and paste this:
+
+```python
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -15,7 +24,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- THE REACT APPLICATION (v3.0 - Scheduler Added) ---
+# --- THE REACT APPLICATION (v3.0 - Scheduler Fixed) ---
 react_app = """
 <!DOCTYPE html>
 <html lang="en">
@@ -231,4 +240,202 @@ react_app = """
                         {tasks.map(task => (
                             <div key={task.id} className="bg-white p-4 rounded-lg shadow-sm border border-slate-100 group relative">
                                 <div className="flex justify-between items-start mb-2">
-                                    <span className={`text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wide ${task.priority === 'high' ? 'bg-red-100 text-red-600' : task.priority ===
+                                    <span className={`text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wide ${task.priority === 'high' ? 'bg-red-100 text-red-600' : task.priority === 'medium' ? 'bg-orange-100 text-orange-600' : 'bg-green-100 text-green-600'}`}>{task.priority}</span>
+                                    <button onClick={(e) => { e.stopPropagation(); if(confirm('Delete?')) setTasks(tasks.filter(t=>t.id!==task.id)); }} className="text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100"><Icons.Trash2 size={16} /></button>
+                                </div>
+                                <h4 className="text-sm font-medium text-slate-800 mb-1">{task.title}</h4>
+                                <div className="flex justify-between items-center pt-2 mt-2 border-t border-slate-50">
+                                    <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-[10px] text-white font-bold">{task.assignee.charAt(0)}</div>
+                                    <div className="flex space-x-1 opacity-0 group-hover:opacity-100">
+                                        {status !== 'todo' && <button onClick={() => { setTasks(prev => prev.map(t => t.id === task.id ? {...t, status: getPrevStatus(t.status)} : t)) }} className="p-1 hover:bg-slate-100 rounded"><Icons.ChevronRight size={14} className="rotate-180" /></button>}
+                                        {status !== 'done' && <button onClick={() => { setTasks(prev => prev.map(t => t.id === task.id ? {...t, status: getNextStatus(t.status)} : t)) }} className="p-1 hover:bg-slate-100 rounded"><Icons.ChevronRight size={14} /></button>}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+            
+            const getNextStatus = (s) => { const ord = ['todo','in-progress','review','done']; return ord[Math.min(ord.indexOf(s)+1, 3)]; }
+            const getPrevStatus = (s) => { const ord = ['todo','in-progress','review','done']; return ord[Math.max(ord.indexOf(s)-1, 0)]; }
+
+            // --- MAIN RENDER ---
+            return (
+                <div className="flex h-screen bg-slate-100 text-slate-900 font-sans overflow-hidden">
+                    {/* Sidebar */}
+                    <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-slate-900 flex-shrink-0 transition-all duration-300 flex flex-col`}>
+                        <div className="h-16 flex items-center justify-center border-b border-slate-800 text-white font-bold text-xl">{isSidebarOpen ? "CampusOne" : "CO"}</div>
+                        <div className="flex-1 px-3 py-6 space-y-2">
+                            {['dashboard','schedule','tasks','facilities','staff','reports'].map(tab => (
+                                <button key={tab} onClick={() => setActiveTab(tab)} className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${activeTab === tab ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800'}`}>
+                                    {tab==='dashboard' && <Icons.LayoutDashboard size={20}/>}
+                                    {tab==='schedule' && <Icons.Calendar size={20}/>}
+                                    {tab==='tasks' && <Icons.CheckSquare size={20}/>}
+                                    {tab==='facilities' && <Icons.Building2 size={20}/>}
+                                    {tab==='staff' && <Icons.Users size={20}/>}
+                                    {tab==='reports' && <Icons.FileText size={20}/>}
+                                    {isSidebarOpen && <span className="capitalize">{tab}</span>}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="p-4 border-t border-slate-800">
+                            <button onClick={() => setIsSettingsOpen(true)} className="flex items-center space-x-3 text-slate-400 hover:text-white w-full">
+                                <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">CD</div>
+                                {isSidebarOpen && <span className="text-sm">Settings</span>}
+                            </button>
+                        </div>
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1 flex flex-col min-w-0">
+                        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-10">
+                            <div className="flex items-center">
+                                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="mr-4 text-slate-500"><Icons.Menu size={24}/></button>
+                                <h1 className="text-xl font-bold capitalize">{activeTab}</h1>
+                            </div>
+                            <div className="flex items-center space-x-4">
+                                <div className="flex items-center bg-slate-100 rounded-lg px-3 py-2">
+                                    <Icons.Search size={18} className="text-slate-400 mr-2"/>
+                                    <input type="text" placeholder="Search system..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="bg-transparent border-none text-sm focus:outline-none w-48"/>
+                                </div>
+                                {saveStatus === 'saved' && <span className="text-green-600 text-sm font-bold animate-pulse">Saved!</span>}
+                            </div>
+                        </header>
+
+                        <div className="flex-1 overflow-y-auto p-6">
+                            
+                            {/* DASHBOARD */}
+                            {activeTab === 'dashboard' && (
+                                <div className="space-y-6 animate-fade-in">
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"><p className="text-xs font-bold text-slate-500 uppercase">Pending Tasks</p><h3 className="text-2xl font-bold mt-1">{stats.total - stats.done}</h3></div>
+                                        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"><p className="text-xs font-bold text-slate-500 uppercase">Completion</p><h3 className="text-2xl font-bold mt-1 text-green-600">{Math.round((stats.done / (stats.total || 1)) * 100)}%</h3></div>
+                                        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"><p className="text-xs font-bold text-slate-500 uppercase">Critical</p><h3 className="text-2xl font-bold mt-1 text-red-600">{stats.highPriority}</h3></div>
+                                        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"><p className="text-xs font-bold text-slate-500 uppercase">Occupancy</p><h3 className="text-2xl font-bold mt-1 text-indigo-600">{stats.occupancy}%</h3></div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* DAILY SCHEDULER VIEW (NEW) */}
+                            {activeTab === 'schedule' && (
+                                <div className="space-y-4 animate-fade-in">
+                                    <div className="flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                        <div className="flex items-center space-x-2">
+                                            <Icons.Calendar size={20} className="text-indigo-600" />
+                                            <span className="font-bold text-slate-700">Select Date:</span>
+                                            <input 
+                                                type="date" 
+                                                className="border rounded-lg p-2 text-sm"
+                                                value={selectedDate}
+                                                onChange={(e) => setSelectedDate(e.target.value)}
+                                            />
+                                        </div>
+                                        <span className="text-xs text-slate-400">Autosave enabled</span>
+                                    </div>
+
+                                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                                        <div className="overflow-x-auto">
+                                            <table className="min-w-full divide-y divide-slate-200">
+                                                <thead className="bg-slate-50">
+                                                    <tr>
+                                                        <th className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider w-16">#</th>
+                                                        <th className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider w-32">Time</th>
+                                                        <th className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Task</th>
+                                                        <th className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider w-48">Link</th>
+                                                        <th className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider w-48">Stakeholders</th>
+                                                        <th className="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider w-64">Remarks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="bg-white divide-y divide-slate-200">
+                                                    {timeSlots.map((slot) => (
+                                                        <tr key={slot.id} className="hover:bg-slate-50">
+                                                            <td className="px-4 py-2 text-sm text-slate-500 font-mono">{slot.id}</td>
+                                                            <td className="px-4 py-2 text-sm font-bold text-slate-700 whitespace-nowrap">{slot.time}</td>
+                                                            <td className="px-4 py-2"><input type="text" placeholder="Enter task..." className="grid-input" value={getScheduleValue(slot.id, 'task')} onChange={(e) => handleScheduleChange(slot.id, 'task', e.target.value)} /></td>
+                                                            <td className="px-4 py-2 relative group">
+                                                                <div className="flex items-center">
+                                                                    <input type="text" placeholder="https://..." className="grid-input" value={getScheduleValue(slot.id, 'link')} onChange={(e) => handleScheduleChange(slot.id, 'link', e.target.value)} />
+                                                                    {getScheduleValue(slot.id, 'link') && (
+                                                                        <a href={getScheduleValue(slot.id, 'link')} target="_blank" className="ml-1 text-indigo-600 hover:text-indigo-800"><Icons.ExternalLink size={14} /></a>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                            <td className="px-4 py-2"><input type="text" placeholder="Who involved?" className="grid-input" value={getScheduleValue(slot.id, 'stakeholders')} onChange={(e) => handleScheduleChange(slot.id, 'stakeholders', e.target.value)} /></td>
+                                                            <td className="px-4 py-2"><input type="text" placeholder="Notes..." className="grid-input" value={getScheduleValue(slot.id, 'remarks')} onChange={(e) => handleScheduleChange(slot.id, 'remarks', e.target.value)} /></td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* OTHER VIEWS */}
+                            {activeTab === 'tasks' && (
+                                <div className="h-full overflow-x-auto pb-4"><div className="flex space-x-6 h-full min-w-[1000px]">{['todo','in-progress','review','done'].map(s => <KanbanColumn key={s} title={s.toUpperCase()} status={s} tasks={filteredTasks.filter(t=>t.status===s)} />)}</div></div>
+                            )}
+
+                            {activeTab === 'facilities' && (
+                                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                                    <div className="grid grid-cols-4 bg-slate-50 p-4 font-bold text-xs text-slate-500 uppercase"><div>Name</div><div>Capacity</div><div>Status</div><div>Next Free</div></div>
+                                    <div className="divide-y divide-slate-100">{filteredFacilities.map(f => <div key={f.id} className="grid grid-cols-4 p-4 text-sm items-center hover:bg-slate-50"><div className="font-medium flex items-center"><Icons.Building2 size={16} className="text-slate-400 mr-2"/>{f.name}</div><div className="text-slate-500">{f.capacity}</div><div><span className={`px-2 py-1 rounded-full text-xs font-bold ${f.status==='Available'?'bg-green-100 text-green-700':f.status==='Maintenance'?'bg-yellow-100 text-yellow-700':'bg-red-100 text-red-700'}`}>{f.status}</span></div><div className="font-mono text-slate-500">{f.nextFree}</div></div>)}</div>
+                                </div>
+                            )}
+
+                            {activeTab === 'staff' && (
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">{filteredStaff.map(s => <div key={s.id} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-start space-x-4"><div className="p-3 bg-slate-100 rounded-full"><Icons.Users size={24} className="text-slate-600"/></div><div><h4 className="font-bold">{s.name}</h4><p className="text-xs uppercase text-slate-500 mb-2">{s.role}</p><span className={`text-xs px-2 py-1 rounded border ${s.status==='On Duty'?'bg-green-50 text-green-700 border-green-200':'bg-slate-50 text-slate-500'}`}>{s.status}</span></div></div>)}</div>
+                            )}
+
+                            {activeTab === 'reports' && (
+                                <div className="space-y-6">
+                                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                                        <div className="flex justify-between items-center mb-6"><h2 className="font-bold text-lg">AI Executive Summary</h2><button onClick={handleGenerateReport} disabled={aiLoading} className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 disabled:opacity-50 flex items-center">{aiLoading ? <div className="spinner mr-2"></div> : <Icons.Sparkles size={16} className="mr-2"/>} Generate Report</button></div>
+                                        {aiReport ? <div className="prose prose-sm max-w-none bg-slate-50 p-6 rounded-lg border border-slate-200" dangerouslySetInnerHTML={{ __html: marked.parse(aiReport) }}></div> : <div className="text-center py-12 text-slate-400 border-2 border-dashed border-slate-200 rounded-lg">No report generated yet. Click the button above.</div>}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </main>
+
+                    {/* MODALS */}
+                    {isTaskModalOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                            <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 m-4">
+                                <div className="flex justify-between mb-4"><h3 className="font-bold">New Action</h3><button onClick={()=>setIsTaskModalOpen(false)}><Icons.X/></button></div>
+                                <div className="space-y-4">
+                                    <div><label className="flex justify-between text-sm font-medium mb-1"><span>Task Note</span><button onClick={handleSmartTaskDraft} disabled={aiLoading} className="text-indigo-600 text-xs flex items-center hover:underline">{aiLoading ? "Thinking..." : "✨ AI Auto-Fill"}</button></label><input className="w-full border rounded-lg p-2" value={newTask.title} onChange={e=>setNewTask({...newTask, title:e.target.value})} placeholder="e.g. 'Fix the projector in Hall A'" /></div>
+                                    <div className="grid grid-cols-2 gap-4"><div><label className="text-sm font-medium">Category</label><select className="w-full border rounded-lg p-2" value={newTask.category} onChange={e=>setNewTask({...newTask, category:e.target.value})}><option>Admin</option><option>Facilities</option><option>Compliance</option><option>Events</option></select></div><div><label className="text-sm font-medium">Priority</label><select className="w-full border rounded-lg p-2" value={newTask.priority} onChange={e=>setNewTask({...newTask, priority:e.target.value})}><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></div></div>
+                                    <div><label className="text-sm font-medium">Assignee</label><input className="w-full border rounded-lg p-2" value={newTask.assignee} onChange={e=>setNewTask({...newTask, assignee:e.target.value})} /></div>
+                                    <button onClick={()=>{ setTasks([...tasks, {id:`t${Date.now()}`, ...newTask, status:'todo'}]); setIsTaskModalOpen(false); setNewTask({title:'',category:'Admin',priority:'medium',assignee:'Self'}); }} className="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700">Create Task</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {isSettingsOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                            <div className="bg-white rounded-xl shadow-xl w-full max-w-sm p-6 m-4">
+                                <div className="flex justify-between mb-4"><h3 className="font-bold">Settings</h3><button onClick={()=>setIsSettingsOpen(false)}><Icons.X/></button></div>
+                                <div className="space-y-4">
+                                    <div><label className="block text-sm font-medium mb-1">Gemini API Key</label><input type="password" className="w-full border rounded-lg p-2" value={apiKey} onChange={e=>setApiKey(e.target.value)} placeholder="Paste API Key here" /><p className="text-xs text-slate-500 mt-1">Data saved to browser LocalStorage.</p></div>
+                                    <button onClick={handleSaveSettings} className="w-full bg-slate-800 text-white font-bold py-2 rounded-lg hover:bg-slate-700">Save & Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<CampusManagerApp />);
+    </script>
+</body>
+</html>
+"""
+
+components.html(react_app, height=1000, scrolling=True)
+
+```
