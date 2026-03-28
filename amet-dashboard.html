@@ -7,7 +7,7 @@
 <title>Leetcode Performance Tracker — AMET University</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<style>1
+<style>
   :root {
     --bg: #f5f2eb;
     --surface: #ffffff;
@@ -449,7 +449,7 @@ const CLASS_CONFIG = {
   },
 };
 
-const AUTO_REFRESH_SEC = 30;
+const AUTO_REFRESH_SEC = 120;
 
 function buildUrls(sheetId, sheetName) {
   const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&cachebust=${Date.now()}`;
@@ -535,22 +535,6 @@ function switchClass(cls) {
   fetchData(false);
 }
 
-
-  // LeetCode API for live updates
-const LEETCODE_API = 'https://leetcode.com/graphql';
-async function fetchLeetCodeStats(username) {
-  try {
-    const query = `query userProfile($username: String!) { matchedUser(username: $username) { username profile { realName } submitStats { acSubmissionNum { difficulty count submissions } } } }`;
-    const response = await fetch(LEETCODE_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query, variables: { username } }) });
-    const result = await response.json();
-    if (result.data?.matchedUser) {
-      const stats = {};
-      result.data.matchedUser.submitStats.acSubmissionNum.forEach(item => { stats[item.difficulty.toLowerCase()] = item.count; });
-      return { name: result.data.matchedUser.profile.realName || username, easy: stats.easy || 0, medium: stats.medium || 0, hard: stats.hard || 0, total: (stats.easy || 0) + (stats.medium || 0) + (stats.hard || 0) };
-    }
-  } catch (e) { console.warn(`LeetCode fetch failed for ${username}:`, e); }
-  return null;
-}
 // ── FETCH ─────────────────────────────────────────────────────────────
 async function fetchData(manual = false) {
   if (manual) showToast('🔄 Refreshing from Google Sheets…', 'info', 2000);
@@ -587,14 +571,6 @@ async function fetchData(manual = false) {
     document.getElementById('dashboard').style.display = 'block';
     if (manual) showToast(`✓ Synced — ${parsed.length} students loaded`, 'success');
     startCountdown();
-      // Fetch live LeetCode data
-  for (let i = 0; i < data.length; i++) {
-    const leetcodeStats = await fetchLeetCodeStats(data[i].username || data[i].name);
-    if (leetcodeStats) {
-      data[i] = { ...data[i], ...leetcodeStats, lc_easy: leetcodeStats.easy, lc_medium: leetcodeStats.medium, lc_hard: leetcodeStats.hard };
-    }
-  }
-  displayLeaderboard(data); updateCharts(data);
 
   } catch (err) {
     setStatus('err', '<b>Connection error</b> — could not fetch data');
