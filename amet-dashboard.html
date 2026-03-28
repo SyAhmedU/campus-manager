@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +28,6 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--ink); font-family:var(--font-mono); min-height:100vh; }
 
-  /* TOPBAR */
   .topbar {
     background:var(--ink); color:#aaa; padding:0 40px; height:66px;
     display:flex; align-items:center; justify-content:space-between;
@@ -45,7 +43,6 @@
   .topbar-logo { height:47px; border-radius:8px; background:#fff; padding:4px 10px; margin-right:14px; }
   .topbar-right { display:flex; align-items:center; gap:14px; }
 
-  /* CLASS DROPDOWN */
   .class-dropdown-wrap { position:relative; display:flex; align-items:center; }
   .class-dropdown-wrap::before { content:''; position:absolute; left:12px; top:50%; transform:translateY(-50%); width:8px; height:8px; border-radius:50%; background:var(--easy); pointer-events:none; z-index:1; }
   .class-dropdown-wrap::after { content:''; position:absolute; right:12px; top:50%; transform:translateY(-50%); width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #aaa; pointer-events:none; z-index:1; }
@@ -54,7 +51,6 @@
   .class-select:focus { border-color:var(--easy); box-shadow:0 0 0 3px rgba(61,153,112,0.25); background:rgba(255,255,255,0.14); }
   .class-select option { background:#1a1714; color:#fff; font-family:var(--font-mono); font-size:0.78rem; padding:8px 12px; }
 
-  /* SYNC BUTTON */
   .sync-btn {
     display:inline-flex; align-items:center; gap:7px; padding:8px 16px;
     background:rgba(255,255,255,0.1); color:#fff;
@@ -67,7 +63,6 @@
   .sync-btn.syncing { border-color:var(--easy); color:#5dd4a0; pointer-events:none; }
   .sync-btn.errstate { border-color:var(--hard); color:#f5a0a0; }
   @keyframes spin { to { transform:rotate(360deg); } }
-  .spin-icon { animation:spin 0.8s linear infinite; display:inline-block; }
 
   .pdf-btn {
     display:inline-flex; align-items:center; gap:7px; padding:8px 18px;
@@ -80,19 +75,15 @@
   .pdf-btn:hover { background:#2d7a58; transform:translateY(-1px); }
   .pdf-btn:active { transform:translateY(0); }
 
-  /* MAIN */
   .main { max-width:1280px; margin:0 auto; padding:32px 40px 60px; }
 
-  /* LIVE STATUS BAR */
   .live-bar {
     display:flex; align-items:center; gap:10px; padding:9px 16px;
     background:var(--surface); border:1.5px solid var(--border);
     border-radius:10px; margin-bottom:0; box-shadow:var(--shadow);
     font-size:0.7rem; flex-wrap:wrap;
   }
-  .live-dot {
-    width:8px; height:8px; border-radius:50%; background:#ccc; flex-shrink:0; transition:background 0.3s;
-  }
+  .live-dot { width:8px; height:8px; border-radius:50%; background:#ccc; flex-shrink:0; transition:background 0.3s; }
   .live-dot.ok  { background:var(--easy); box-shadow:0 0 0 3px rgba(61,153,112,0.2); animation:pulse 2.5s ease infinite; }
   .live-dot.loading { background:var(--medium); animation:pulse 0.9s ease infinite; }
   .live-dot.err { background:var(--hard); }
@@ -108,53 +99,31 @@
   }
   .sheet-link:hover { background:var(--surface2); border-color:var(--accent); }
   .cd-wrap { font-size:0.63rem; color:var(--muted); display:flex; align-items:center; gap:5px; }
-  .cd-badge {
-    background:var(--surface2); border:1px solid var(--border); border-radius:4px;
-    padding:1px 6px; font-size:0.62rem; color:var(--accent); font-weight:600; min-width:30px; text-align:center;
-  }
+  .cd-badge { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-size:0.62rem; color:var(--accent); font-weight:600; min-width:30px; text-align:center; }
 
-  /* ERROR */
-  .err-banner {
-    display:none; align-items:flex-start; gap:12px; padding:13px 16px;
-    background:#fff5f5; border:1.5px solid #fcc; border-radius:10px;
-    margin-bottom:16px; font-size:0.73rem; color:#7a1a1a; line-height:1.7;
-  }
+  /* progress bar inside skeleton — only addition */
+  .fetch-progress-bar-wrap { width:100%; max-width:400px; margin:16px auto 6px; height:5px; background:var(--surface2); border-radius:8px; border:1px solid var(--border); overflow:hidden; }
+  .fetch-progress-bar-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,var(--easy),var(--accent)); transition:width 0.3s ease; width:0%; }
+  .fetch-progress-text { font-size:0.67rem; color:var(--muted); text-align:center; margin-top:4px; }
+
+  .err-banner { display:none; align-items:flex-start; gap:12px; padding:13px 16px; background:#fff5f5; border:1.5px solid #fcc; border-radius:10px; margin-bottom:16px; font-size:0.73rem; color:#7a1a1a; line-height:1.7; }
   .err-banner.show { display:flex; }
   .err-banner code { background:#fde; padding:1px 5px; border-radius:3px; font-size:0.68rem; }
 
-  /* SKELETON */
   .skeleton { display:none; padding:60px 40px; text-align:center; color:var(--muted); font-size:0.78rem; }
   .skeleton.show { display:block; }
   .sk-spin { width:30px; height:30px; border:3px solid var(--border); border-top-color:var(--easy); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 14px; }
 
-  /* CLASS LABEL */
-  .class-label-bar {
-    display:flex; align-items:center; gap:12px; margin-bottom:22px;
-    padding:10px 18px; background:var(--surface);
-    border:1.5px solid var(--border); border-radius:10px;
-    box-shadow:var(--shadow); animation:fadeUp 0.3s ease both;
-  }
-  .class-label-badge {
-    background:var(--easy); color:#fff; font-size:0.65rem;
-    letter-spacing:1.5px; text-transform:uppercase; padding:4px 12px;
-    border-radius:6px; font-weight:600;
-  }
+  .class-label-bar { display:flex; align-items:center; gap:12px; margin-bottom:22px; padding:10px 18px; background:var(--surface); border:1.5px solid var(--border); border-radius:10px; box-shadow:var(--shadow); animation:fadeUp 0.3s ease both; }
+  .class-label-badge { background:var(--easy); color:#fff; font-size:0.65rem; letter-spacing:1.5px; text-transform:uppercase; padding:4px 12px; border-radius:6px; font-weight:600; }
   .class-label-name { font-family:var(--font-head); font-size:1rem; font-weight:700; }
   .class-label-sub { font-size:0.7rem; color:var(--muted); margin-left:auto; }
 
-  /* METRICS */
   .metrics-wrapper { display:flex; gap:10px; margin-bottom:24px; align-items:stretch; }
-  .metrics-group {
-    display:flex; flex-direction:column; border-radius:10px; overflow:hidden;
-    border:1.5px solid var(--border); box-shadow:var(--shadow); flex:1;
-    animation:fadeUp 0.4s ease both;
-  }
+  .metrics-group { display:flex; flex-direction:column; border-radius:10px; overflow:hidden; border:1.5px solid var(--border); box-shadow:var(--shadow); flex:1; animation:fadeUp 0.4s ease both; }
   .metrics-group.students { border-color:#d4c8f0; }
   .metrics-group.questions { border-color:#b8ddc8; }
-  .metrics-group-label {
-    font-size:0.6rem; letter-spacing:2px; text-transform:uppercase;
-    padding:6px 16px; font-weight:600; display:flex; align-items:center; gap:7px;
-  }
+  .metrics-group-label { font-size:0.6rem; letter-spacing:2px; text-transform:uppercase; padding:6px 16px; font-weight:600; display:flex; align-items:center; gap:7px; }
   .metrics-group.students .metrics-group-label { background:#ede8ff; color:#5a3fa0; border-bottom:1px solid #d4c8f0; }
   .metrics-group.questions .metrics-group-label { background:#e4f7ed; color:#1e6e47; border-bottom:1px solid #b8ddc8; }
   .metrics-group-dot { width:6px; height:6px; border-radius:50%; display:inline-block; flex-shrink:0; }
@@ -172,7 +141,6 @@
   .metric-value.accent { color:var(--accent); }
   .metric-sub { font-size:0.7rem; color:var(--muted); margin-top:6px; }
 
-  /* CHARTS */
   .charts-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
   .chart-wide { grid-column:1/-1; }
   .chart-card { background:var(--surface); border:1.5px solid var(--border); border-radius:12px; padding:24px 26px; box-shadow:var(--shadow); animation:fadeUp 0.5s ease both; }
@@ -182,7 +150,6 @@
   .legend { display:flex; gap:18px; align-items:center; font-size:0.7rem; color:var(--muted); margin-bottom:16px; }
   .legend-dot { width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:5px; }
 
-  /* TABLE */
   .filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
   .filter-label { font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-right:4px; }
   .filter-btn { padding:5px 14px; border-radius:20px; border:1.5px solid var(--border); background:transparent; font-family:var(--font-mono); font-size:0.72rem; cursor:pointer; color:var(--ink); transition:all 0.18s; }
@@ -209,14 +176,20 @@
   .td-name { font-weight:500; }
   .td-sno { color:var(--muted); font-size:0.7rem; text-align:center; }
   .badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:0.7rem; font-weight:500; text-align:center; min-width:32px; }
-  .badge-easy { background:#d4f1e4; color:#1e6e47; }
+  .badge-easy   { background:#d4f1e4; color:#1e6e47; }
   .badge-medium { background:#fde9d3; color:#8a4300; }
-  .badge-hard { background:#fad5d5; color:#7a1a1a; }
-  .badge-zero { background:var(--surface2); color:var(--muted); }
+  .badge-hard   { background:#fad5d5; color:#7a1a1a; }
+  .badge-zero   { background:var(--surface2); color:var(--muted); }
+  /* only new badge styles — loading and error states */
+  .badge-loading { background:#f0ebe0; color:var(--muted); font-size:0.62rem; animation:pulse 1s ease infinite; }
+  .badge-err     { background:#fff0f0; color:var(--hard); font-size:0.62rem; }
   .total-bar-wrap { width:120px; background:var(--surface2); border-radius:4px; height:6px; overflow:hidden; display:inline-block; vertical-align:middle; margin-left:8px; }
   .total-bar-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--easy),var(--accent)); transition:width 0.4s ease; }
   .topper-tag { display:inline-block; background:var(--tag-bg); color:var(--tag-text); font-size:0.6rem; letter-spacing:1.5px; text-transform:uppercase; padding:2px 8px; border-radius:4px; margin-left:8px; vertical-align:middle; }
   .no-attempt td { opacity:0.5; }
+  /* small LeetCode profile link in name cell */
+  .lc-link { font-size:0.62rem; color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:3px; margin-left:7px; vertical-align:middle; opacity:0.7; }
+  .lc-link:hover { color:var(--accent); opacity:1; }
 
   .pagination { display:flex; align-items:center; justify-content:space-between; padding:14px 24px; border-top:1px solid var(--border); font-size:0.72rem; color:var(--muted); }
   .page-btns { display:flex; gap:6px; }
@@ -227,7 +200,6 @@
   .section-title { font-family:var(--font-head); font-size:1.1rem; font-weight:700; }
   .section-line { flex:1; height:1.5px; background:var(--border); border-radius:2px; }
 
-  /* TOAST */
   .toast { position:fixed; bottom:32px; right:32px; padding:12px 20px; border-radius:10px; font-family:var(--font-mono); font-size:0.75rem; font-weight:500; color:#fff; z-index:999; opacity:0; transform:translateY(12px); transition:opacity 0.25s,transform 0.25s; pointer-events:none; display:flex; align-items:center; gap:9px; box-shadow:var(--shadow-lg); }
   .toast.show { opacity:1; transform:translateY(0); }
   .toast.success { background:var(--easy); } .toast.error { background:var(--hard); } .toast.info { background:var(--accent); }
@@ -265,6 +237,7 @@
     td{padding:5px 10px!important}
     .no-attempt td{opacity:0.4!important}
     #tableBody tr{display:table-row!important}
+    .lc-link{display:none!important}
   }
 </style>
 </head>
@@ -300,7 +273,11 @@
 
   <div class="skeleton" id="skeleton">
     <div class="sk-spin"></div>
-    Loading student data from Google Sheets…
+    <div id="skeletonMsg">Loading student list from Google Sheets…</div>
+    <div class="fetch-progress-bar-wrap" id="progressWrap" style="display:none">
+      <div class="fetch-progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="fetch-progress-text" id="progressText"></div>
   </div>
 
   <div id="dashboard" style="display:none">
@@ -432,13 +409,13 @@ const CLASS_CONFIG = {
   'ibsc-aiml': {
     label:     'I B.Sc AI & ML',
     name:      'I B.Sc AI & ML (2025 – 2028)',
-    sheetId:   '1I3hpvkWJdENryVbAOtA1MlAPL23-G1fMPHVJK_w9KpQ',
+    sheetId:   '1JFzmGxvifFXppcYXOtEKvpP9U8JcAcBq3lZlZQkfTg4',
     sheetName: 'Sheet1',
   },
   'iibsc-aiml': {
     label:     'II B.Sc AI & ML',
     name:      'II B.Sc AI & ML (2024 – 2027)',
-    sheetId:   '1YALWxhVCjiWKqDI1Gj-v6sKw1zHcZqVyN0t801TY538',
+    sheetId:   '14lk3Q5xKXRWZ9KCW-PmV7LTRREmfnAlAQRl9I67qnrg',
     sheetName: 'Sheet1',
   },
   'ibsc-aids': {
@@ -449,9 +426,29 @@ const CLASS_CONFIG = {
   },
 };
 
-const AUTO_REFRESH_SEC = 120;
+// Auto-refresh every 5 minutes (LeetCode API is slower than Sheets)
+const AUTO_REFRESH_SEC = 300;
 
-function buildUrls(sheetId, sheetName) {
+// CORS proxies tried in order for LeetCode GraphQL
+const LC_PROXIES = [
+  q => ({ url: 'https://corsproxy.io/?' + encodeURIComponent('https://leetcode.com/graphql'), body: q }),
+  q => ({ url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://leetcode.com/graphql'), body: q }),
+];
+
+// ── HELPERS ───────────────────────────────────────────────────────────
+// Extract plain username from a full LeetCode URL or bare username
+function extractUsername(raw) {
+  if (!raw) return null;
+  raw = raw.trim().replace(/^"|"$/g, '');
+  // https://leetcode.com/u/Username/ or https://leetcode.com/Username/
+  const m = raw.match(/leetcode\.com\/(?:u\/)?([^\/\?\s#]+)/i);
+  if (m && m[1]) return m[1].replace(/\/$/, '');
+  // bare alphanumeric username
+  if (/^[a-zA-Z0-9_\-]+$/.test(raw) && raw.length > 0) return raw;
+  return null;
+}
+
+function buildSheetUrls(sheetId, sheetName) {
   const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&cachebust=${Date.now()}`;
   return [
     base,
@@ -459,6 +456,8 @@ function buildUrls(sheetId, sheetName) {
     `https://corsproxy.io/?${encodeURIComponent(base)}`
   ];
 }
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 // ── STATE ─────────────────────────────────────────────────────────────
 let data = [], maxTotal = 0, chartInstances = {};
@@ -475,31 +474,25 @@ function showToast(msg, type='success', ms=3000) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), ms);
 }
 
-// ── STATUS ────────────────────────────────────────────────────────────
+// ── STATUS BAR ────────────────────────────────────────────────────────
 function setStatus(state, msg) {
   document.getElementById('liveDot').className = 'live-dot ' + state;
   document.getElementById('liveStatus').innerHTML = msg;
   const btn = document.getElementById('syncBtn'), txt = document.getElementById('syncTxt');
   if (!btn) return;
-  if (state === 'loading') {
-    btn.className = 'sync-btn syncing'; txt.textContent = 'Syncing…';
-  } else if (state === 'err') {
-    btn.className = 'sync-btn errstate'; txt.textContent = 'Retry';
-  } else {
-    btn.className = 'sync-btn'; txt.textContent = 'Refresh Now';
-  }
+  if (state === 'loading') { btn.className = 'sync-btn syncing'; txt.textContent = 'Syncing…'; }
+  else if (state === 'err') { btn.className = 'sync-btn errstate'; txt.textContent = 'Retry'; }
+  else { btn.className = 'sync-btn'; txt.textContent = 'Refresh Now'; }
 }
 function markTime() {
   const t = new Date().toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
   document.getElementById('liveTime').textContent = 'Updated: ' + t;
 }
 function startCountdown() {
-  clearInterval(cdTimer);
-  cdVal = AUTO_REFRESH_SEC;
+  clearInterval(cdTimer); cdVal = AUTO_REFRESH_SEC;
   document.getElementById('cdBadge').textContent = cdVal + 's';
   cdTimer = setInterval(() => {
-    cdVal--;
-    document.getElementById('cdBadge').textContent = cdVal + 's';
+    cdVal--; document.getElementById('cdBadge').textContent = cdVal + 's';
     if (cdVal <= 0) { clearInterval(cdTimer); fetchData(false); }
   }, 1000);
 }
@@ -508,86 +501,172 @@ function startCountdown() {
 function switchClass(cls) {
   activeClass = cls;
   document.getElementById('classSelect').value = cls;
-
-  // Reset filters & UI
   currentFilter = 'all'; currentSearch = ''; currentSort = {key:'total', dir:'desc'}; currentPage = 1;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.filter-btn').classList.add('active');
   document.querySelectorAll('.sort-col-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.sort-col-btn').classList.add('active');
   document.getElementById('sortDirBtn').textContent = '↓ Desc';
-  const si = document.getElementById('searchInput');
-  if (si) si.value = '';
-
-  // Update label bar
+  const si = document.getElementById('searchInput'); if (si) si.value = '';
   const cfg = CLASS_CONFIG[cls];
   document.getElementById('classLabelBadge').textContent = cfg.label;
   document.getElementById('classLabelName').textContent  = cfg.name;
   document.getElementById('printHeader').textContent     = `All Students — ${cfg.name}`;
-
-  // Update sheet link
   document.getElementById('sheetLink').href = `https://docs.google.com/spreadsheets/d/${cfg.sheetId}/edit`;
-
-  // Show skeleton, hide dashboard while loading
   document.getElementById('skeleton').classList.add('show');
   document.getElementById('dashboard').style.display = 'none';
-
+  // Reset progress bar
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('progressText').textContent = '';
+  document.getElementById('skeletonMsg').textContent = 'Loading student list from Google Sheets…';
   fetchData(false);
 }
 
-// ── FETCH ─────────────────────────────────────────────────────────────
+// ── FETCH LEETCODE STATS (single student) ─────────────────────────────
+async function fetchLeetCodeStats(username) {
+  const graphqlQuery = JSON.stringify({
+    query: `query userStats($username: String!) {
+      matchedUser(username: $username) {
+        submitStatsGlobal {
+          acSubmissionNum { difficulty count }
+        }
+      }
+    }`,
+    variables: { username }
+  });
+
+  for (const proxyFn of LC_PROXIES) {
+    try {
+      const { url, body } = proxyFn(graphqlQuery);
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body,
+      });
+      if (!res.ok) continue;
+      let json = await res.json();
+      // allorigins wraps response in { contents: "..." }
+      if (json && json.contents) json = JSON.parse(json.contents);
+      const nums = json?.data?.matchedUser?.submitStatsGlobal?.acSubmissionNum;
+      if (!nums) return { easy:0, medium:0, hard:0, found:false };
+      const get = d => nums.find(n => n.difficulty === d)?.count || 0;
+      return { easy: get('Easy'), medium: get('Medium'), hard: get('Hard'), found: true };
+    } catch(e) { /* try next proxy */ }
+  }
+  return { easy:0, medium:0, hard:0, found:false, error:true };
+}
+
+// ── MAIN FETCH FLOW ───────────────────────────────────────────────────
 async function fetchData(manual = false) {
-  if (manual) showToast('🔄 Refreshing from Google Sheets…', 'info', 2000);
-  setStatus('loading', '<b>Fetching</b> from Google Sheets…');
+  if (manual) showToast('🔄 Refreshing from LeetCode…', 'info', 2000);
+  setStatus('loading', '<b>Fetching</b> student list from Google Sheets…');
   document.getElementById('errBanner').classList.remove('show');
 
   const cfg = CLASS_CONFIG[activeClass];
 
-  try {
-    const urls = buildUrls(cfg.sheetId, cfg.sheetName);
-    let text = null, lastErr = null;
-    for (const url of urls) {
-      try {
-        const res = await fetch(url, {cache: 'no-store'});
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const t = await res.text();
-        if (t.trim().startsWith('{') && t.includes('"contents"')) {
-          text = JSON.parse(t).contents;
-        } else {
-          text = t;
-        }
-        if (text && text.trim()) break;
-      } catch(e) { lastErr = e; }
-    }
-    if (!text || !text.trim()) throw new Error(lastErr?.message || 'All fetch strategies failed');
+  // ── Step 1: Load username sheet ──────────────────────────────────
+  let text = null, lastErr = null;
+  for (const url of buildSheetUrls(cfg.sheetId, cfg.sheetName)) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      let t = await res.text();
+      if (t.trim().startsWith('{') && t.includes('"contents"')) t = JSON.parse(t).contents;
+      if (t && t.trim()) { text = t; break; }
+    } catch(e) { lastErr = e; }
+  }
 
-    const parsed = parseCSV(text);
-    if (!parsed.length) throw new Error('No student rows found. Check that the sheet has data and the header row contains "Student Name", "Easy", "Medium", "Hard".');
-
-    applyData(parsed);
-    setStatus('ok', `<b>Live</b> — connected to Google Sheets · ${parsed.length} students`);
-    markTime();
-    document.getElementById('skeleton').classList.remove('show');
-    document.getElementById('dashboard').style.display = 'block';
-    if (manual) showToast(`✓ Synced — ${parsed.length} students loaded`, 'success');
-    startCountdown();
-
-  } catch (err) {
-    setStatus('err', '<b>Connection error</b> — could not fetch data');
-    document.getElementById('errBanner').classList.add('show');
-    document.getElementById('errText').innerHTML =
-      `<b>Could not load data for ${CLASS_CONFIG[activeClass].label}.</b> ${err.message}<br><br>
-       <b>Checklist:</b><br>
-       1. The sheet must be public: <em>Share → Anyone with the link → Viewer</em><br>
-       2. Open this file in a browser <b>with internet access</b><br>
-       3. Try Chrome or a different network (mobile data if on school Wi-Fi)<br>
-       4. Verify the Sheet ID in CLASS_CONFIG matches the actual Google Sheet URL`;
-    applyData([]);
+  if (!text || !text.trim()) {
+    setStatus('err', '<b>Connection error</b> — could not fetch sheet');
+    showSheetError(lastErr?.message || 'All fetch strategies failed', cfg);
     document.getElementById('skeleton').classList.remove('show');
     document.getElementById('dashboard').style.display = 'block';
     if (manual) showToast('✕ Could not reach Google Sheets', 'error', 5000);
-    startCountdown();
+    startCountdown(); return;
   }
+
+  // ── Step 2: Parse CSV ────────────────────────────────────────────
+  let students;
+  try { students = parseCSV(text); }
+  catch(e) {
+    setStatus('err', '<b>Parse error</b>');
+    showSheetError(e.message, cfg);
+    document.getElementById('skeleton').classList.remove('show');
+    document.getElementById('dashboard').style.display = 'block';
+    startCountdown(); return;
+  }
+
+  if (!students.length) {
+    setStatus('err', '<b>No students found</b>');
+    showSheetError('No student rows found. Ensure your sheet has "Student Name" and "LeetCode Username" (or profile URL) columns.', cfg);
+    document.getElementById('skeleton').classList.remove('show');
+    document.getElementById('dashboard').style.display = 'block';
+    startCountdown(); return;
+  }
+
+  // ── Step 3: Show dashboard immediately with loading badges ───────
+  applyData(students);
+  document.getElementById('skeleton').classList.remove('show');
+  document.getElementById('dashboard').style.display = 'block';
+
+  const withUsername = students.filter(s => s.username);
+  if (!withUsername.length) {
+    setStatus('ok', `<b>Loaded</b> — ${students.length} students · no LeetCode usernames found in sheet`);
+    markTime(); startCountdown(); return;
+  }
+
+  setStatus('loading', `<b>Fetching live LeetCode stats</b> — 0 / ${withUsername.length} students…`);
+
+  // ── Step 4: Fetch LC stats in batches of 5 ──────────────────────
+  let done = 0;
+  const BATCH = 5;
+  for (let i = 0; i < withUsername.length; i += BATCH) {
+    const batch = withUsername.slice(i, i + BATCH);
+    await Promise.all(batch.map(async s => {
+      const stats = await fetchLeetCodeStats(s.username);
+      s.easy    = stats.easy;
+      s.medium  = stats.medium;
+      s.hard    = stats.hard;
+      s.total   = stats.easy + stats.medium + stats.hard;
+      s.lcFound = stats.found;
+      s.lcError = !!stats.error;
+      s.lcLoading = false;
+      done++;
+    }));
+    // Progressive re-render after every batch
+    applyData(students);
+    const pct = Math.round((done / withUsername.length) * 100);
+    setStatus('loading', `<b>Fetching live LeetCode stats</b> — ${done} / ${withUsername.length} students (${pct}%)…`);
+    if (i + BATCH < withUsername.length) await sleep(250);
+  }
+
+  // ── Step 5: Final render + status ───────────────────────────────
+  applyData(students);
+  const synced  = withUsername.filter(s => s.lcFound).length;
+  const errored = withUsername.filter(s => s.lcError).length;
+  const noUser  = students.filter(s => !s.username).length;
+
+  setStatus('ok',
+    `<b>Live</b> — LeetCode · ${students.length} students · ${synced} synced` +
+    (errored ? ` · <span style="color:var(--hard)">${errored} username not found</span>` : '') +
+    (noUser  ? ` · ${noUser} no username` : '')
+  );
+  markTime();
+  if (manual) showToast(`✓ Synced — ${synced} students live from LeetCode`, 'success');
+  startCountdown();
+}
+
+function showSheetError(msg, cfg) {
+  document.getElementById('errBanner').classList.add('show');
+  document.getElementById('errText').innerHTML =
+    `<b>Could not load data for ${cfg.label}.</b> ${msg}<br><br>
+     <b>Checklist:</b><br>
+     1. Sheet must be public: <em>Share → Anyone with the link → Viewer</em><br>
+     2. Columns needed: <code>S.No</code> | <code>Student Name</code> | <code>LeetCode Username</code> (full URL is fine)<br>
+     3. Open in a browser with internet access<br>
+     4. Try Chrome or mobile data if on restricted Wi-Fi`;
+  applyData([]);
 }
 
 // ── PARSE CSV ─────────────────────────────────────────────────────────
@@ -609,65 +688,51 @@ function parseCSV(text) {
   // Find header row — scan first 8 rows
   let hIdx = -1;
   for (let i = 0; i < Math.min(rows.length, 8); i++) {
-    const joined = rows[i].join('|').toLowerCase();
-    const hasName = /(student|name)/i.test(joined);
-    const hasDiff = /(easy|medium|hard)/i.test(joined);
-    if (hasName && hasDiff) { hIdx = i; break; }
-  }
-  if (hIdx === -1) {
-    for (let i = 0; i < Math.min(rows.length, 8); i++) {
-      const joined = rows[i].join('|').toLowerCase();
-      if (/easy/.test(joined) && /medium/.test(joined) && /hard/.test(joined)) {
-        hIdx = i; break;
-      }
-    }
+    const j = rows[i].join('|').toLowerCase();
+    if (/(student|name)/i.test(j)) { hIdx = i; break; }
   }
   if (hIdx === -1) {
     const sample = rows.slice(0,4).map(r => r.join(' | ')).join('\n');
-    throw new Error(`Could not find header row. First rows of sheet:\n${sample}`);
+    throw new Error(`Could not find header row. First rows:\n${sample}`);
   }
 
   const headers = rows[hIdx].map(h => h.toLowerCase().replace(/\s+/g,' ').trim());
 
   const col = (...aliases) => {
     for (const a of aliases) {
-      const i = headers.findIndex(h => h === a.toLowerCase());
-      if (i >= 0) return i;
+      const i = headers.findIndex(h => h === a.toLowerCase()); if (i >= 0) return i;
     }
     for (const a of aliases) {
       const needle = a.toLowerCase();
-      const i = headers.findIndex(h => h.includes(needle) || needle.includes(h));
-      if (i >= 0) return i;
+      const i = headers.findIndex(h => h.includes(needle) || needle.includes(h)); if (i >= 0) return i;
     }
     return -1;
   };
 
-  const nameC = col('student name', 'name', 'studentname', 'student');
-  const easyC = col('easy', 'no of easy', 'easy solved', 'easy problems', 'no.of easy');
-  const medC  = col('medium', 'med', 'no of medium', 'medium solved', 'medium problems', 'no.of medium');
-  const hardC = col('hard', 'no of hard', 'hard solved', 'hard problems', 'no.of hard');
-  const snoC  = col('s.no', 'sno', 's no', 'no', '#', 'serial', 'sl no', 'sl.no');
+  const nameC = col('student name','name','studentname','student');
+  // Accept any column that looks like a LeetCode URL or username column
+  const lcC   = col('leetcode username','leetcode url','leetcode profile','leetcode link','leetcode','username','profile url','profile link','url','link','profile');
+  const snoC  = col('s.no','sno','s no','no','#','serial','sl no','sl.no');
 
-  if (nameC < 0 || easyC < 0 || medC < 0 || hardC < 0) {
-    throw new Error(
-      `Missing required columns (found: [${headers.join(', ')}]).\n` +
-      `Need: "Student Name" (idx ${nameC}), "Easy" (idx ${easyC}), "Medium" (idx ${medC}), "Hard" (idx ${hardC}).\n` +
-      `Please ensure headers match: Student Name | Easy | Medium | Hard`
-    );
-  }
+  if (nameC < 0) throw new Error(`Missing "Student Name" column. Found: [${headers.join(', ')}]`);
+  if (lcC   < 0) throw new Error(`Missing LeetCode URL/username column. Found: [${headers.join(', ')}]\nAdd a column named "LeetCode Username" or "LeetCode URL".`);
 
   const students = [];
   for (let i = hIdx + 1; i < rows.length; i++) {
     const r = rows[i];
     if (!r || r.every(c => !c.trim())) continue;
-    const name = (r[nameC] || '').trim().replace(/^"|"$/g, '');
+    const name = (r[nameC] || '').trim().replace(/^"|"$/g,'');
     if (!name || /^[-\s,]*$/.test(name)) continue;
+    const rawUrl   = (r[lcC] || '').trim().replace(/^"|"$/g,'');
+    const username = extractUsername(rawUrl);
     students.push({
-      sno:    snoC >= 0 ? (parseInt(r[snoC]) || students.length + 1) : students.length + 1,
+      sno:        snoC >= 0 ? (parseInt(r[snoC]) || students.length + 1) : students.length + 1,
       name,
-      easy:   Math.max(0, parseInt(r[easyC])  || 0),
-      medium: Math.max(0, parseInt(r[medC])   || 0),
-      hard:   Math.max(0, parseInt(r[hardC])  || 0),
+      username,   // null if not parseable
+      rawUrl,
+      easy: 0, medium: 0, hard: 0, total: 0,
+      lcLoading: !!username,  // true = waiting for API
+      lcFound: false, lcError: false,
     });
   }
   return students;
@@ -675,9 +740,9 @@ function parseCSV(text) {
 
 // ── APPLY DATA ────────────────────────────────────────────────────────
 function applyData(raw) {
-  data = raw.map(s => ({...s, total: s.easy + s.medium + s.hard}));
-  const sorted = [...data].sort((a, b) => b.total - a.total);
-  sorted.forEach((s, i) => {
+  data = raw.map(s => ({...s, total: (s.easy||0)+(s.medium||0)+(s.hard||0)}));
+  const sorted = [...data].sort((a,b) => b.total - a.total);
+  sorted.forEach((s,i) => {
     const d = data.find(x => x.sno === s.sno && x.name === s.name);
     if (d) d.rank = i + 1;
   });
@@ -689,7 +754,7 @@ function applyData(raw) {
 
 // ── METRICS ───────────────────────────────────────────────────────────
 function renderMetrics() {
-  const tE=data.reduce((a,b)=>a+b.easy,0), tM=data.reduce((a,b)=>a+b.medium,0), tH=data.reduce((a,b)=>a+b.hard,0);
+  const tE=data.reduce((a,b)=>a+(b.easy||0),0), tM=data.reduce((a,b)=>a+(b.medium||0),0), tH=data.reduce((a,b)=>a+(b.hard||0),0);
   const tP=tE+tM+tH, actS=data.filter(d=>d.total>0).length;
   const pct=(n,d)=>d===0?'0':((n/d)*100).toFixed(0);
   const card=m=>`<div class="metric-card"><div class="metric-label">${m.label}</div><div class="metric-value ${m.cls||''}">${m.value}</div><div class="metric-sub">${m.sub}</div></div>`;
@@ -714,18 +779,17 @@ function destroyCharts() {
 
 const emptyPlugin = (msg) => ({id:'ep_'+msg, afterDraw(c) {
   if (c.data.datasets[0].data.some(v => v > 0)) return;
-  const {ctx, width:w, height:h} = c; ctx.save();
-  ctx.font = '500 13px DM Mono, monospace'; ctx.fillStyle = '#b5afa6';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(msg, w/2, h/2); ctx.restore();
+  const {ctx,width:w,height:h}=c; ctx.save();
+  ctx.font='500 13px DM Mono,monospace'; ctx.fillStyle='#b5afa6';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(msg,w/2,h/2); ctx.restore();
 }});
 
 function renderCharts() {
   destroyCharts();
-  const tE=data.reduce((a,b)=>a+b.easy,0), tM=data.reduce((a,b)=>a+b.medium,0), tH=data.reduce((a,b)=>a+b.hard,0);
+  const tE=data.reduce((a,b)=>a+(b.easy||0),0), tM=data.reduce((a,b)=>a+(b.medium||0),0), tH=data.reduce((a,b)=>a+(b.hard||0),0);
   const tP=tE+tM+tH;
 
-  // Doughnut
   const dlp={id:'dlp',afterDatasetDraw(chart){
     const{ctx,data:cd}=chart,meta=chart.getDatasetMeta(0);
     const tot=cd.datasets[0].data.reduce((a,b)=>a+b,0);if(!tot)return;
@@ -745,9 +809,8 @@ function renderCharts() {
         tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} problems (${((c.raw/(tP||1))*100).toFixed(1)}%)`}}}}
   });
 
-  // Engagement bar
-  const zero=data.filter(d=>d.total===0).length, low=data.filter(d=>d.total>=1&&d.total<=2).length,
-        mid=data.filter(d=>d.total>=3&&d.total<=5).length, high=data.filter(d=>d.total>5).length;
+  const zero=data.filter(d=>d.total===0).length,low=data.filter(d=>d.total>=1&&d.total<=2).length,
+        mid=data.filter(d=>d.total>=3&&d.total<=5).length,high=data.filter(d=>d.total>5).length;
   const blp={id:'blp',afterDatasetDraw(chart){
     const{ctx}=chart;
     chart.getDatasetMeta(0).data.forEach((bar,i)=>{
@@ -765,7 +828,6 @@ function renderCharts() {
         y:{grid:{color:'#eeeae0'},ticks:{font:{family:'DM Mono',size:10},color:'#7a7368',stepSize:5}}}}
   });
 
-  // Top 15 stacked bar
   const top15=[...data].sort((a,b)=>b.total-a.total).slice(0,15);
   const tlp={id:'tlp',afterDatasetsDraw(chart){
     const{ctx,scales:{x,y}}=chart;
@@ -786,17 +848,17 @@ function renderCharts() {
   chartInstances['topStudentsChart']=new Chart(document.getElementById('topStudentsChart'),{
     type:'bar',plugins:[tlp,emptyPlugin('No submissions yet — check back soon')],
     data:{labels:top15.map(s=>s.name.split(' ')[0]),datasets:[
-      {label:'Easy',  data:top15.map(s=>s.easy),  backgroundColor:'#3d9970',borderRadius:0,stack:'s0'},
-      {label:'Medium',data:top15.map(s=>s.medium),backgroundColor:'#e67e22',borderRadius:0,stack:'s0'},
-      {label:'Hard',  data:top15.map(s=>s.hard),  backgroundColor:'#c0392b',borderRadius:4,stack:'s0'},
-      {label:'Total', data:top15.map(s=>s.total), type:'line',borderColor:'#2c5f8a',backgroundColor:'rgba(44,95,138,0.12)',borderWidth:2.5,pointBackgroundColor:'#2c5f8a',pointRadius:5,pointHoverRadius:7,fill:false,tension:.35,yAxisID:'y',stack:undefined,order:0}
+      {label:'Easy',  data:top15.map(s=>s.easy||0),  backgroundColor:'#3d9970',borderRadius:0,stack:'s0'},
+      {label:'Medium',data:top15.map(s=>s.medium||0),backgroundColor:'#e67e22',borderRadius:0,stack:'s0'},
+      {label:'Hard',  data:top15.map(s=>s.hard||0),  backgroundColor:'#c0392b',borderRadius:4,stack:'s0'},
+      {label:'Total', data:top15.map(s=>s.total||0), type:'line',borderColor:'#2c5f8a',backgroundColor:'rgba(44,95,138,0.12)',borderWidth:2.5,pointBackgroundColor:'#2c5f8a',pointRadius:5,pointHoverRadius:7,fill:false,tension:.35,yAxisID:'y',stack:undefined,order:0}
     ]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:36}},interaction:{mode:'index',intersect:false},
       plugins:{legend:{display:true,labels:{font:{family:'DM Mono',size:10},color:'#7a7368',boxWidth:12,padding:16}},
         tooltip:{callbacks:{title:items=>top15[items[0].dataIndex]?.name||'',label:c=>` ${c.dataset.label}: ${c.raw}`}}},
       scales:{x:{stacked:true,grid:{display:false},ticks:{font:{family:'DM Mono',size:10},color:'#7a7368'}},
         y:{stacked:true,grid:{color:'#eeeae0'},ticks:{font:{family:'DM Mono',size:10},color:'#7a7368',stepSize:2},
-           min:0,max:Math.max(5,...top15.map(s=>s.total))+1}}}
+           min:0,max:Math.max(5,...top15.map(s=>s.total||0))+1}}}
   });
 }
 
@@ -817,19 +879,43 @@ function renderTable() {
   const totalPages=Math.max(1,Math.ceil(filtered.length/PAGE_SIZE));
   if(currentPage>totalPages)currentPage=1;
   const start=(currentPage-1)*PAGE_SIZE, page=filtered.slice(start,start+PAGE_SIZE);
+
   document.getElementById('tableBody').innerHTML=page.map((s,i)=>{
-    const pct=maxTotal>0?(s.total/maxTotal)*100:0, isTop=s.rank<=3&&s.total>0;
-    return `<tr class="${s.total===0?'no-attempt':''}">
+    const pct = maxTotal>0 ? (s.total/maxTotal)*100 : 0;
+    const isTop = s.rank<=3 && s.total>0;
+    // Is this student still waiting for their LC API response?
+    const loading = s.lcLoading && !s.lcFound && !s.lcError;
+    const noUser  = !s.username;
+    const errUser = s.lcError;
+
+    function diffBadge(val, cls) {
+      if (loading) return `<span class="badge badge-loading">…</span>`;
+      if (noUser)  return `<span class="badge badge-zero">—</span>`;
+      if (errUser) return `<span class="badge badge-err">✕</span>`;
+      return `<span class="badge ${val>0?cls:'badge-zero'}">${val}</span>`;
+    }
+    const totalVal = loading ? '…' : s.total;
+
+    // Small LeetCode link shown next to name (hidden on print)
+    const lcLink = s.username
+      ? `<a class="lc-link" href="https://leetcode.com/u/${s.username}/" target="_blank" title="${s.username}">
+           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+           ${s.username}
+         </a>`
+      : '';
+
+    return `<tr class="${s.total===0&&!loading?'no-attempt':''}">
       <td class="td-sno">${start+i+1}</td>
-      <td class="td-name">${s.name}${isTop?`<span class="topper-tag">#${s.rank}</span>`:''}</td>
-      <td><span class="badge ${s.easy>0?'badge-easy':'badge-zero'}">${s.easy}</span></td>
-      <td><span class="badge ${s.medium>0?'badge-medium':'badge-zero'}">${s.medium}</span></td>
-      <td><span class="badge ${s.hard>0?'badge-hard':'badge-zero'}">${s.hard}</span></td>
-      <td><strong>${s.total}</strong></td>
+      <td class="td-name">${s.name}${isTop?`<span class="topper-tag">#${s.rank}`:``}${isTop?`</span>`:''}${lcLink}</td>
+      <td>${diffBadge(s.easy,  'badge-easy')}</td>
+      <td>${diffBadge(s.medium,'badge-medium')}</td>
+      <td>${diffBadge(s.hard,  'badge-hard')}</td>
+      <td><strong>${totalVal}</strong></td>
       <td><div class="total-bar-wrap"><div class="total-bar-fill" style="width:${pct}%"></div></div></td>
     </tr>`;
   }).join('');
-  document.getElementById('paginationInfo').textContent=
+
+  document.getElementById('paginationInfo').textContent =
     filtered.length===0
       ? 'No students match this filter'
       : `Showing ${start+1}–${Math.min(start+PAGE_SIZE,filtered.length)} of ${filtered.length} students`;
@@ -853,7 +939,15 @@ function downloadPDF(){
   const all=[...data].sort((a,b)=>(a.rank||999)-(b.rank||999));
   tbody.innerHTML=all.map((s,i)=>{
     const pct=maxTotal>0?(s.total/maxTotal)*100:0,isTop=s.rank<=3&&s.total>0;
-    return `<tr class="${s.total===0?'no-attempt':''}"><td class="td-sno">${i+1}</td><td class="td-name">${s.name}${isTop?`<span class="topper-tag">#${s.rank}</span>`:''}</td><td><span class="badge ${s.easy>0?'badge-easy':'badge-zero'}">${s.easy}</span></td><td><span class="badge ${s.medium>0?'badge-medium':'badge-zero'}">${s.medium}</span></td><td><span class="badge ${s.hard>0?'badge-hard':'badge-zero'}">${s.hard}</span></td><td><strong>${s.total}</strong></td><td><div class="total-bar-wrap"><div class="total-bar-fill" style="width:${pct}%"></div></div></td></tr>`;
+    return `<tr class="${s.total===0?'no-attempt':''}">
+      <td class="td-sno">${i+1}</td>
+      <td class="td-name">${s.name}${isTop?`<span class="topper-tag">#${s.rank}</span>`:''}</td>
+      <td><span class="badge ${s.easy>0?'badge-easy':'badge-zero'}">${s.easy}</span></td>
+      <td><span class="badge ${s.medium>0?'badge-medium':'badge-zero'}">${s.medium}</span></td>
+      <td><span class="badge ${s.hard>0?'badge-hard':'badge-zero'}">${s.hard}</span></td>
+      <td><strong>${s.total}</strong></td>
+      <td><div class="total-bar-wrap"><div class="total-bar-fill" style="width:${pct}%"></div></div></td>
+    </tr>`;
   }).join('');
   window.print();
   setTimeout(()=>{tbody.innerHTML=saved;},600);
